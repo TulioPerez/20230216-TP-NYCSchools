@@ -1,13 +1,13 @@
 package com.tulioperezalgaba.wixsite;
 
-public class SATScore {
+public class ModelSATScore {
     private String dbn; // school code
     private int numTakers; // number of students who took the SAT
     private int criticalReadingMean;
     private int mathMean;
     private int writingMean;
 
-    public SATScore(String dbn, int numTakers, int criticalReadingMean, int mathMean, int writingMean) {
+    public ModelSATScore(String dbn, int numTakers, int criticalReadingMean, int mathMean, int writingMean) {
         this.dbn = dbn;
         this.numTakers = numTakers;
         this.criticalReadingMean = criticalReadingMean;

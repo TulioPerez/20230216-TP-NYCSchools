@@ -10,16 +10,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class SchoolListAdapter extends RecyclerView.Adapter<SchoolListAdapter.ViewHolder> {
+public class AdapterSchoolList extends RecyclerView.Adapter<AdapterSchoolList.ViewHolder> {
 
-    private List<School> mSchools;
+    private List<ModelSchool> mSchools;
     private OnSchoolClickListener mListener;
 
     public interface OnItemClickListener {
-        void onItemClick(School school);
+        void onItemClick(ModelSchool school);
     }
 
-    public SchoolListAdapter(List<School> schools, OnSchoolClickListener listener) {
+    public AdapterSchoolList(List<ModelSchool> schools, OnSchoolClickListener listener) {
         mSchools = schools;
         mListener = listener;
     }
@@ -34,7 +34,7 @@ public class SchoolListAdapter extends RecyclerView.Adapter<SchoolListAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        School school = mSchools.get(position);
+        ModelSchool school = mSchools.get(position);
         holder.bind(school);
     }
 
@@ -44,10 +44,10 @@ public class SchoolListAdapter extends RecyclerView.Adapter<SchoolListAdapter.Vi
     }
 
     public interface OnSchoolClickListener {
-        void onSchoolClick(School school);
+        void onSchoolClick(ModelSchool school);
     }
 
-    public void setSchools(List<School> schools) {
+    public void setSchools(List<ModelSchool> schools) {
         mSchools = schools;
         notifyDataSetChanged();
     }
@@ -62,7 +62,7 @@ public class SchoolListAdapter extends RecyclerView.Adapter<SchoolListAdapter.Vi
             itemView.setOnClickListener(this);
         }
 
-        public void bind(School school) {
+        public void bind(ModelSchool school) {
             mTextViewSchoolName.setText(school.getSchoolName());
         }
 

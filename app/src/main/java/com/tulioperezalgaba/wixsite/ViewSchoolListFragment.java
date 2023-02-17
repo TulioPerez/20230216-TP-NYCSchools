@@ -15,32 +15,33 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SchoolListFragment extends Fragment {
-    private SchoolListViewModel viewModel;
+public class ViewSchoolListFragment extends Fragment {
+    private ViewModelSchoolList viewModel;
     private RecyclerView recyclerView;
-    private SchoolListAdapter adapter;
+    private AdapterSchoolList adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_school_list, container, false);
         recyclerView = view.findViewById(R.id.recyclerViewSchoolList);
-        adapter = new SchoolListAdapter(new ArrayList<>(), this::onSchoolSelected);
+
+        adapter = new AdapterSchoolList(new ArrayList<>(), this::onSchoolSelected);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        viewModel = new ViewModelProvider(this).get(SchoolListViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ViewModelSchoolList.class);
         viewModel.getSchoolsLiveData().observe(getViewLifecycleOwner(), this::updateSchoolList);
         viewModel.getErrorLiveData().observe(getViewLifecycleOwner(), this::showError);
         return view;
     }
 
-    private void updateSchoolList(List<School> schools) {
+    private void updateSchoolList(List<ModelSchool> schools) {
         adapter.setSchools(schools);
     }
 
-    private void onSchoolSelected(School school) {
-        Intent intent = new Intent(getActivity(), SchoolDetailActivity.class);
-        intent.putExtra(SchoolDetailActivity.EXTRA_SCHOOL_DBN, school.getDbn());
+    private void onSchoolSelected(ModelSchool school) {
+        Intent intent = new Intent(getActivity(), ActivitySchoolDetail.class);
+        intent.putExtra(ActivitySchoolDetail.EXTRA_SCHOOL_DBN, school.getDbn());
         startActivity(intent);
     }
 

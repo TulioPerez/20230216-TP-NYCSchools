@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import java.util.List;
 
-public class School implements Parcelable {
+public class ModelSchool implements Parcelable {
     private String dbn; // school code
     private String schoolName;
 //    private String overviewParagraph;
@@ -13,9 +13,9 @@ public class School implements Parcelable {
 //    private String phoneNumber;
 //    private double latitude;
 //    private double longitude;
-    private List<SATScore> satScores;
+    private List<ModelSATScore> satScores;
 
-    public School(String dbn, String schoolName, String overviewParagraph, String location, String phoneNumber, double latitude, double longitude) {
+    public ModelSchool(String dbn, String schoolName, String overviewParagraph, String location, String phoneNumber, double latitude, double longitude) {
         this.dbn = dbn;
         this.schoolName = schoolName;
 //        this.overviewParagraph = overviewParagraph;
@@ -25,21 +25,21 @@ public class School implements Parcelable {
 //        this.longitude = longitude;
     }
 
-    protected School(Parcel in) {
+    protected ModelSchool(Parcel in) {
         dbn = in.readString();
         schoolName = in.readString();
 //        overviewParagraph = in.readString();
     }
 
-    public static final Creator<School> CREATOR = new Creator<School>() {
+    public static final Creator<ModelSchool> CREATOR = new Creator<ModelSchool>() {
         @Override
-        public School createFromParcel(Parcel in) {
-            return new School(in);
+        public ModelSchool createFromParcel(Parcel in) {
+            return new ModelSchool(in);
         }
 
         @Override
-        public School[] newArray(int size) {
-            return new School[size];
+        public ModelSchool[] newArray(int size) {
+            return new ModelSchool[size];
         }
     };
 
@@ -99,11 +99,11 @@ public class School implements Parcelable {
 //        this.longitude = longitude;
 //    }
 
-    public List<SATScore> getSatScores() {
+    public List<ModelSATScore> getSatScores() {
         return satScores;
     }
 
-    public void setSatScores(List<SATScore> satScores) {
+    public void setSatScores(List<ModelSATScore> satScores) {
         this.satScores = satScores;
     }
 
