@@ -12,6 +12,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ActivitySchoolList extends AppCompatActivity implements AdapterSchoolList.OnSchoolClickListener {
 
     private RecyclerView mRecyclerView;
@@ -34,14 +38,34 @@ public class ActivitySchoolList extends AppCompatActivity implements AdapterScho
     }
 
     private void loadSchools() {
-        try {
-            List<ModelSchool> schools = mRepoSchool.getSchools();
-            mAdapter.setSchools(schools);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Error loading schools", Toast.LENGTH_SHORT).show();
-        }
+        mRepoSchool.getSchools(new Callback<List<ModelSchool>>() {
+            @Override
+            public void onResponse(Call<List<ModelSchool>> call, Response<List<ModelSchool>> response) {
+                if (response.isSuccessful()) {
+                    List<ModelSchool> schools = response.body();
+                    mAdapter.setSchools(schools);
+                } else {
+                    Toast.makeText(ActivitySchoolList.this, "Error loading schools", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ModelSchool>> call, Throwable t) {
+                t.printStackTrace();
+                Toast.makeText(ActivitySchoolList.this, "Error loading schools", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
+//    private void loadSchools() {
+//        try {
+//            List<ModelSchool> schools = mRepoSchool.getSchools();
+//            mAdapter.setSchools(schools);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            Toast.makeText(this, "Error loading schools", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
     @Override
     public void onSchoolClick(ModelSchool school) {

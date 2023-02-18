@@ -7,6 +7,10 @@ import androidx.lifecycle.ViewModel;
 import java.io.IOException;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ViewModelSchoolList extends ViewModel {
     private RepoSchool schoolRepository;
     private RepoSATScore satScoreRepository;
@@ -34,13 +38,26 @@ public class ViewModelSchoolList extends ViewModel {
     }
 
     private void loadSchools() {
-        try {
-            List<ModelSchool> schools = schoolRepository.getSchools();
-            schoolsLiveData.postValue(schools);
-        } catch (IOException e) {
-            errorLiveData.postValue("Error fetching schools data: " + e.getMessage());
-        }
+        schoolRepository.getSchools(new Callback<List<ModelSchool>>() {
+            @Override
+            public void onResponse(Call<List<ModelSchool>> call, Response<List<ModelSchool>> response) {
+                if (response.isSuccessful()) {
+                    schoolsLiveData.postValue(response.body());
+                } else {
+                    errorLiveData.postValue("Error fetching schools data: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ModelSchool>> call, Throwable t) {
+                errorLiveData.postValue("Error fetching schools data: " + t.getMessage());
+            }
+        });
     }
+
+
+
+
 
     public void loadSATScoresForSchool(String dbn) {
         try {

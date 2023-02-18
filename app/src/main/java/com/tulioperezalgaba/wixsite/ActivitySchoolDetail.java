@@ -46,7 +46,7 @@ public class ActivitySchoolDetail extends AppCompatActivity {
             schoolDetailViewModel.getErrorLiveData().observe(this, this::showError);
             schoolDetailViewModel.loadSchoolDetails(school.getDbn());
         } else {
-            System.out.println("School data not found");
+            Log.d("ActivitySchoolDetail", "School data not found");
         }
     }
 

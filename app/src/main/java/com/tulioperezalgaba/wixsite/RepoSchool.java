@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
@@ -18,19 +19,14 @@ public class RepoSchool {
             .build();
     private final SchoolService schoolService = retrofit.create(SchoolService.class);
 
-    public List<ModelSchool> getSchools() throws IOException {
+    public void getSchools(Callback<List<ModelSchool>> callback) {
         Call<List<ModelSchool>> call = schoolService.getSchools();
-        return call.execute().body();
+        call.enqueue(callback);
     }
 
-    public ModelSchool getSchoolByDbn(String dbn) throws IOException {
+    public void getSchoolByDbn(String dbn, Callback<List<ModelSchool>> callback) {
         Call<List<ModelSchool>> call = schoolService.getSchoolsByDbn(dbn);
-        List<ModelSchool> schools = call.execute().body();
-        if (schools != null && !schools.isEmpty()) {
-            return schools.get(0);
-        } else {
-            throw new IOException("School not found");
-        }
+        call.enqueue(callback);
     }
 
     interface SchoolService {
@@ -40,4 +36,23 @@ public class RepoSchool {
         @GET("resource/s3k6-pzi2.json")
         Call<List<ModelSchool>> getSchoolsByDbn(@Query("dbn") String dbn);
     }
+
+//    public ModelSchool getSchoolByDbn(String dbn) throws IOException {
+//        Call<List<ModelSchool>> call = schoolService.getSchoolsByDbn(dbn);
+//        List<ModelSchool> schools = call.execute().body();
+//        if (schools != null && !schools.isEmpty()) {
+//            return schools.get(0);
+//        } else {
+//            throw new IOException("School not found");
+//        }
+//}
+
+//    interface SchoolService {
+//        @GET("resource/s3k6-pzi2.json")
+//        Call<List<ModelSchool>> getSchools();
+//
+//        @GET("resource/s3k6-pzi2.json")
+//        Call<List<ModelSchool>> getSchoolsByDbn(@Query("dbn") String dbn);
+//    }
+
 }
