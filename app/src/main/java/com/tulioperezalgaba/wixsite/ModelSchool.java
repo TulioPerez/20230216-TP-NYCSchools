@@ -6,29 +6,19 @@ import android.os.Parcelable;
 import java.util.List;
 
 public class ModelSchool implements Parcelable {
-    private String dbn; // school code
-    private String schoolName;
-//    private String overviewParagraph;
-//    private String location;
-//    private String phoneNumber;
-//    private double latitude;
-//    private double longitude;
+    private String school_name;
+    private String dbn;
     private List<ModelSATScore> satScores;
 
-    public ModelSchool(String dbn, String schoolName, String overviewParagraph, String location, String phoneNumber, double latitude, double longitude) {
+    public ModelSchool(String dbn, String school_name, List<ModelSATScore> satScores) {
         this.dbn = dbn;
-        this.schoolName = schoolName;
-//        this.overviewParagraph = overviewParagraph;
-//        this.location = location;
-//        this.phoneNumber = phoneNumber;
-//        this.latitude = latitude;
-//        this.longitude = longitude;
+        this.school_name = school_name;
+        this.satScores = satScores;
     }
 
     protected ModelSchool(Parcel in) {
         dbn = in.readString();
-        schoolName = in.readString();
-//        overviewParagraph = in.readString();
+        school_name = in.readString();
     }
 
     public static final Creator<ModelSchool> CREATOR = new Creator<ModelSchool>() {
@@ -51,53 +41,14 @@ public class ModelSchool implements Parcelable {
         this.dbn = dbn;
     }
 
-    public String getSchoolName() {
-        return schoolName;
+    public String getSchool_name() {
+        return school_name;
     }
 
-    public void setSchoolName(String schoolName) {
-        this.schoolName = schoolName;
+    public void setSchool_name(String school_name) {
+        this.school_name = school_name;
     }
 
-//    public String getOverviewParagraph() {
-//        return overviewParagraph;
-//    }
-//
-//    public void setOverviewParagraph(String overviewParagraph) {
-//        this.overviewParagraph = overviewParagraph;
-//    }
-
-//    public String getLocation() {
-//        return location;
-//    }
-//
-//    public void setLocation(String location) {
-//        this.location = location;
-//    }
-//
-//    public String getPhoneNumber() {
-//        return phoneNumber;
-//    }
-//
-//    public void setPhoneNumber(String phoneNumber) {
-//        this.phoneNumber = phoneNumber;
-//    }
-//
-//    public double getLatitude() {
-//        return latitude;
-//    }
-//
-//    public void setLatitude(double latitude) {
-//        this.latitude = latitude;
-//    }
-//
-//    public double getLongitude() {
-//        return longitude;
-//    }
-//
-//    public void setLongitude(double longitude) {
-//        this.longitude = longitude;
-//    }
 
     public List<ModelSATScore> getSatScores() {
         return satScores;
@@ -113,9 +64,8 @@ public class ModelSchool implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(dbn);
-        parcel.writeString(schoolName);
-//        parcel.writeString(overviewParagraph);
+    public void writeToParcel(Parcel parcelSchool, int i) {
+        parcelSchool.writeString(dbn);
+        parcelSchool.writeString(school_name);
     }
 }

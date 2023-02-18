@@ -22,7 +22,7 @@ public class ViewModelSchoolList extends ViewModel {
     public ViewModelSchoolList() {
         this.schoolRepository = new RepoSchool();
         this.satScoreRepository = new RepoSATScore();
-        loadSchools();
+//        loadSchools();
     }
 
     public LiveData<List<ModelSchool>> getSchoolsLiveData() {
@@ -37,27 +37,23 @@ public class ViewModelSchoolList extends ViewModel {
         return satScoreLiveData;
     }
 
-    private void loadSchools() {
-        schoolRepository.getSchools(new Callback<List<ModelSchool>>() {
-            @Override
-            public void onResponse(Call<List<ModelSchool>> call, Response<List<ModelSchool>> response) {
-                if (response.isSuccessful()) {
-                    schoolsLiveData.postValue(response.body());
-                } else {
-                    errorLiveData.postValue("Error fetching schools data: " + response.message());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<ModelSchool>> call, Throwable t) {
-                errorLiveData.postValue("Error fetching schools data: " + t.getMessage());
-            }
-        });
-    }
-
-
-
-
+//    private void loadSchools() {
+//        schoolRepository.getSchools(new Callback<List<ModelSchool>>() {
+//            @Override
+//            public void onResponse(Call<List<ModelSchool>> call, Response<List<ModelSchool>> response) {
+//                if (response.isSuccessful()) {
+//                    schoolsLiveData.postValue(response.body());
+//                } else {
+//                    errorLiveData.postValue("Error fetching schools data: " + response.message());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<ModelSchool>> call, Throwable t) {
+//                errorLiveData.postValue("Error fetching schools data: " + t.getMessage());
+//            }
+//        });
+//    }
 
     public void loadSATScoresForSchool(String dbn) {
         try {
@@ -77,4 +73,3 @@ public class ViewModelSchoolList extends ViewModel {
         }
     }
 }
-

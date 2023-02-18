@@ -1,58 +1,70 @@
 package com.tulioperezalgaba.wixsite;
 
-public class ModelSATScore {
-    private String dbn; // school code
-    private int numTakers; // number of students who took the SAT
-    private int criticalReadingMean;
-    private int mathMean;
-    private int writingMean;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-    public ModelSATScore(String dbn, int numTakers, int criticalReadingMean, int mathMean, int writingMean) {
-        this.dbn = dbn;
-        this.numTakers = numTakers;
-        this.criticalReadingMean = criticalReadingMean;
-        this.mathMean = mathMean;
-        this.writingMean = writingMean;
+public class ModelSATScore implements Parcelable {
+    private int sat_critical_reading_avg_score;
+    private int sat_math_avg_score;
+    private int sat_writing_avg_score;
+
+    public ModelSATScore(int sat_critical_reading_avg_score, int sat_math_avg_score, int sat_writing_avg_score) {
+        this.sat_critical_reading_avg_score = sat_critical_reading_avg_score;
+        this.sat_math_avg_score = sat_math_avg_score;
+        this.sat_writing_avg_score = sat_writing_avg_score;
     }
 
-    public String getDbn() {
-        return dbn;
+    protected ModelSATScore(Parcel in) {
+        sat_critical_reading_avg_score = in.readInt();
+        sat_math_avg_score = in.readInt();
+        sat_writing_avg_score = in.readInt();
     }
 
-    public void setDbn(String dbn) {
-        this.dbn = dbn;
+    public static final Creator<ModelSATScore> CREATOR = new Creator<ModelSATScore>() {
+        @Override
+        public ModelSATScore createFromParcel(Parcel in) {
+            return new ModelSATScore(in);
+        }
+
+        @Override
+        public ModelSATScore[] newArray(int size) {
+            return new ModelSATScore[size];
+        }
+    };
+
+    public int getSat_critical_reading_avg_score() {
+        return sat_critical_reading_avg_score;
     }
 
-    public int getNumTakers() {
-        return numTakers;
+    public void setSat_critical_reading_avg_score(int sat_critical_reading_avg_score) {
+        this.sat_critical_reading_avg_score = sat_critical_reading_avg_score;
     }
 
-    public void setNumTakers(int numTakers) {
-        this.numTakers = numTakers;
+    public int getSat_math_avg_score() {
+        return sat_math_avg_score;
     }
 
-    public int getCriticalReadingMean() {
-        return criticalReadingMean;
+    public void setSat_math_avg_score(int sat_math_avg_score) {
+        this.sat_math_avg_score = sat_math_avg_score;
     }
 
-    public void setCriticalReadingMean(int criticalReadingMean) {
-        this.criticalReadingMean = criticalReadingMean;
+    public int getSat_writing_avg_score() {
+        return sat_writing_avg_score;
     }
 
-    public int getMathMean() {
-        return mathMean;
+    public void setSat_writing_avg_score(int sat_writing_avg_score) {
+        this.sat_writing_avg_score = sat_writing_avg_score;
     }
 
-    public void setMathMean(int mathMean) {
-        this.mathMean = mathMean;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public int getWritingMean() {
-        return writingMean;
-    }
-
-    public void setWritingMean(int writingMean) {
-        this.writingMean = writingMean;
+    @Override
+    public void writeToParcel(Parcel parcelSATscores, int flags) {
+        parcelSATscores.writeInt(sat_critical_reading_avg_score);
+        parcelSATscores.writeInt(sat_math_avg_score);
+        parcelSATscores.writeInt(sat_writing_avg_score);
     }
 }
-

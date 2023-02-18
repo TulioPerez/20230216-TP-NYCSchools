@@ -2,5 +2,6 @@
     <string name="app_name">20230216-TP-NYCSchools</string>
 
     <string name="no_data">Data not available</string>
+    <string name="server_error">Server Error. Swipe down to reload or try again later.</string>
 
 </resources>

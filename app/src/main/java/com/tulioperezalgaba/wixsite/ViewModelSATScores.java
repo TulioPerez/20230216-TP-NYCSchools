@@ -11,18 +11,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ViewModelSchoolDetail extends ViewModel {
+public class ViewModelSATScores extends ViewModel {
     private RepoSchool schoolRepository;
     private RepoSATScore satScoreRepository;
     private MutableLiveData<ModelSchool> schoolLiveData = new MutableLiveData<>();
     private MutableLiveData<String> errorLiveData = new MutableLiveData<>();
 
-    public ViewModelSchoolDetail() {
+    public ViewModelSATScores() {
         this.schoolRepository = new RepoSchool();
         this.satScoreRepository = new RepoSATScore();
     }
 
-    public ViewModelSchoolDetail(String dbn) {
+    public ViewModelSATScores(String dbn) {
         this.schoolRepository = new RepoSchool();
         this.satScoreRepository = new RepoSATScore();
         loadSchoolDetails(dbn);

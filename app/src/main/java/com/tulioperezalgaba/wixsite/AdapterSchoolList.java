@@ -13,13 +13,9 @@ import java.util.List;
 public class AdapterSchoolList extends RecyclerView.Adapter<AdapterSchoolList.ViewHolder> {
 
     private List<ModelSchool> mSchools;
-    private OnSchoolClickListener mListener;
+    private OnSchoolSelectedListener mListener;
 
-    public interface OnItemClickListener {
-        void onItemClick(ModelSchool school);
-    }
-
-    public AdapterSchoolList(List<ModelSchool> schools, OnSchoolClickListener listener) {
+    public AdapterSchoolList(List<ModelSchool> schools, OnSchoolSelectedListener listener) {
         mSchools = schools;
         mListener = listener;
     }
@@ -36,6 +32,13 @@ public class AdapterSchoolList extends RecyclerView.Adapter<AdapterSchoolList.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ModelSchool school = mSchools.get(position);
         holder.bind(school);
+
+        // alternate item bg
+        if (position % 2 == 0) {
+            holder.mTextViewSchoolName.setBackgroundResource(R.drawable.background_lt);
+        } else {
+            holder.mTextViewSchoolName.setBackgroundResource(R.drawable.background_dk);
+        }
     }
 
     @Override
@@ -43,7 +46,7 @@ public class AdapterSchoolList extends RecyclerView.Adapter<AdapterSchoolList.Vi
         return mSchools.size();
     }
 
-    public interface OnSchoolClickListener {
+    public interface OnSchoolSelectedListener {
         void onSchoolClick(ModelSchool school);
     }
 
@@ -63,7 +66,7 @@ public class AdapterSchoolList extends RecyclerView.Adapter<AdapterSchoolList.Vi
         }
 
         public void bind(ModelSchool school) {
-            mTextViewSchoolName.setText(school.getSchoolName());
+            mTextViewSchoolName.setText(school.getSchool_name());
         }
 
         @Override
