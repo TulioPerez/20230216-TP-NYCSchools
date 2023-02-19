@@ -20,12 +20,6 @@ public class ActivitySatScores extends AppCompatActivity {
     private TextView satMathTextView;
     private TextView satWritingTextView;
 
-//    public static Intent intentToDetailActivity(Context context, ModelSchool school) {
-//        Intent intent = new Intent(context, ActivitySatScores.class);
-//        intent.putExtra(SCHOOL_EXTRA, school);
-//        return intent;
-//    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,19 +28,19 @@ public class ActivitySatScores extends AppCompatActivity {
 
         schoolDetailViewModel = new ViewModelProvider(this).get(ViewModelSATScores.class);
 
-        ModelSchool school = getIntent().getParcelableExtra(SCHOOL_EXTRA);
+        ModelSchool school = getIntent().getParcelableExtra(EXTRA_SCHOOL_DBN);
         if (school != null) {
+            schoolNameTextView = findViewById(R.id.textViewSchoolName);
+            satReadingTextView = findViewById(R.id.textViewSATReading);
+            satMathTextView = findViewById(R.id.textViewSATMath);
+            satWritingTextView = findViewById(R.id.textViewSATEnglish);
 
             schoolDetailViewModel.loadSchoolDetails(school.getDbn());
             schoolDetailViewModel.getSchoolLiveData().observe(this, this::updateSchoolDetails);
             schoolDetailViewModel.getErrorLiveData().observe(this, this::showError);
 
             schoolNameTextView.setText(school.getSchool_name());
-            schoolNameTextView = findViewById(R.id.textViewSchoolName);
 
-            satReadingTextView = findViewById(R.id.textViewSATReading);
-            satMathTextView = findViewById(R.id.textViewSATMath);
-            satWritingTextView = findViewById(R.id.textViewSATEnglish);
 
         } else {
             Log.d("ActivitySatScores", "School data not found");
