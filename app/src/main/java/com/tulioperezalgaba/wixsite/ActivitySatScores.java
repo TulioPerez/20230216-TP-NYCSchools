@@ -14,8 +14,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 /* Detail activity displaying SAT scores for school in initial activity */
 
-public class ActivityDetailSatScores extends AppCompatActivity {
-    private final String TAG = "ActivityDetailSatScores";
+public class ActivitySatScores extends AppCompatActivity {
+    private final String TAG = "ActivitySatScores";
     public static final String EXTRA_SCHOOL_DBN = "extra_school_dbn";
 
     private ViewModelSATScores schoolDetailViewModel;
@@ -51,7 +51,7 @@ public class ActivityDetailSatScores extends AppCompatActivity {
     }
 
     // updates the UI with SAT score data
-    private void updateSchoolDetails(ModelSchool school) {
+    private void updateSchoolDetails(ModelSchools school) {
         swipeRefreshLayout.setRefreshing(false);
 
         if (school.getSatScores() != null && !school.getSatScores().isEmpty()) {
@@ -60,11 +60,11 @@ public class ActivityDetailSatScores extends AppCompatActivity {
             satWritingTextView.setText(String.valueOf(school.getSatScores().get(0).getSat_writing_avg_score()));
 
         } else {
-            Toast.makeText(this, R.string.no_data_now, Toast.LENGTH_SHORT).show();
             satReadingTextView.setText(getString(R.string.null_data));
             satMathTextView.setText(getString(R.string.null_data));
             satWritingTextView.setText(getString(R.string.null_data));
 
+            Toast.makeText(this, R.string.no_data_now, Toast.LENGTH_SHORT).show();
             Log.d(TAG, "updateSchoolDetails: " + "Scores list is null or empty");
         }
     }
@@ -73,15 +73,15 @@ public class ActivityDetailSatScores extends AppCompatActivity {
     private void fetchData() {
         Log.d(TAG, "Refreshing data");
 
-        ModelSchool school = getIntent().getParcelableExtra(EXTRA_SCHOOL_DBN);
+        ModelSchools school = getIntent().getParcelableExtra(EXTRA_SCHOOL_DBN);
         if (school != null) {
-            Log.d(TAG, "School data fetched successfully");
             schoolNameTextView.setText(school.getSchool_name());
             schoolDetailViewModel.loadSchoolDetails(school.getDbn());
 
             // check for changes to live data
             schoolDetailViewModel.getSchoolLiveData().observe(this, this::updateSchoolDetails);
             schoolDetailViewModel.getErrorLiveData().observe(this, this::showError);
+            Log.d(TAG, "School data fetched successfully for: " + school.getSchool_name());
 
         } else {
             Log.d(TAG, "School data not found");
@@ -90,7 +90,9 @@ public class ActivityDetailSatScores extends AppCompatActivity {
 
     private void showError(String error) {
         swipeRefreshLayout.setRefreshing(false);
-        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+
+        Toast.makeText(this, R.string.no_data_now, Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "showError: " + error);
     }
 
     // improved transition back to ActivitySchoolList

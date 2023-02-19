@@ -1,9 +1,10 @@
 <resources>
-    <string name="app_name">20230216-TP-NYCSchools</string>
+    <string name="project_name">20230216-TP-NYCSchools</string>
+    <string name="app_name">NYC OpenData SAT Scores</string>
 
     <string name="null_data">0</string>
     <string name="no_data">Data not available</string>
-    <string name="no_data_now">Data currently unavailable</string>
+    <string name="no_data_now">Data currently unavailable for this school</string>
     <string name="server_error">Server Error. Swipe down to reload or try again later.</string>
 
 </resources>

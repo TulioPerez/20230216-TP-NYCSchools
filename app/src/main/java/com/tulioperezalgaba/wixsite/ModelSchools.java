@@ -8,32 +8,32 @@ import java.util.List;
 
 /* model class that holds School data and holds a list of SAT scores */
 
-public class ModelSchool implements Parcelable {
+public class ModelSchools implements Parcelable {
     private String school_name;
     private String dbn;
-    private List<ModelSATScore> satScores;
+    private List<ModelSATScores> satScores;
 
-    public ModelSchool(String dbn, String school_name, List<ModelSATScore> satScores) {
+    public ModelSchools(String dbn, String school_name, List<ModelSATScores> satScores) {
         this.dbn = dbn;
         this.school_name = school_name;
         this.satScores = satScores;
     }
 
-    protected ModelSchool(Parcel in) {
+    protected ModelSchools(Parcel in) {
         dbn = in.readString();
         school_name = in.readString();
     }
 
-    // Creates ModelSchool objects from parcel
-    public static final Creator<ModelSchool> CREATOR = new Creator<ModelSchool>() {
+    // Creates ModelSchools objects from parcel
+    public static final Creator<ModelSchools> CREATOR = new Creator<ModelSchools>() {
         @Override
-        public ModelSchool createFromParcel(Parcel in) {
-            return new ModelSchool(in);
+        public ModelSchools createFromParcel(Parcel in) {
+            return new ModelSchools(in);
         }
 
         @Override
-        public ModelSchool[] newArray(int size) {
-            return new ModelSchool[size];
+        public ModelSchools[] newArray(int size) {
+            return new ModelSchools[size];
         }
     };
 
@@ -58,7 +58,7 @@ public class ModelSchool implements Parcelable {
         return school_name;
     }
 
-    public List<ModelSATScore> getSatScores() {
+    public List<ModelSATScores> getSatScores() {
         return satScores;
     }
 
@@ -71,7 +71,7 @@ public class ModelSchool implements Parcelable {
         this.school_name = school_name;
     }
 
-    public void setSatScores(List<ModelSATScore> satScores) {
+    public void setSatScores(List<ModelSATScores> satScores) {
         this.satScores = satScores;
     }
 

@@ -15,19 +15,18 @@ import retrofit2.http.Query;
 
 /* repository class that fetches SAT scores using the Socrata Open Data API */
 
-public class RepoSATScore {
-    private final String TAG = "RepoSATScore";
+public class RepoSATScores {
+    private final String TAG = "RepoSATScores";
 
     // base url & endpoint for the NYC Open Data API
     private static final String BASE_URL = "https://data.cityofnewyork.us/";
     private static final String JSON_SOURCE = "resource/f9bf-2cp4.json";
 
-
     // Retrofit service for retrieving SAT score data
     private final SATScoreService satScoreService;
 
     // initialize Retrofit & instantiate SATScoreService
-    public RepoSATScore() {
+    public RepoSATScores() {
         Retrofit retrofitBuilder = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -36,11 +35,11 @@ public class RepoSATScore {
     }
 
     // fetches list of SAT scores
-    public void getScoresBySchool(String dbn, Callback<List<ModelSATScore>> callback) {
-        Call<List<ModelSATScore>> call = satScoreService.getScoresBySchool(dbn);
-        call.enqueue(new Callback<List<ModelSATScore>>() {
+    public void getScoresBySchool(String dbn, Callback<List<ModelSATScores>> callback) {
+        Call<List<ModelSATScores>> call = satScoreService.getScoresBySchool(dbn);
+        call.enqueue(new Callback<List<ModelSATScores>>() {
             @Override
-            public void onResponse(Call<List<ModelSATScore>> call, Response<List<ModelSATScore>> response) {
+            public void onResponse(Call<List<ModelSATScores>> call, Response<List<ModelSATScores>> response) {
 
                 // did we get a valid response?
                 Log.i(TAG, "API response code (getScoresBySchool): " + response.code() + " response message: " + response.message());
@@ -58,7 +57,7 @@ public class RepoSATScore {
             }
 
             @Override
-            public void onFailure(Call<List<ModelSATScore>> call, Throwable t) {
+            public void onFailure(Call<List<ModelSATScores>> call, Throwable t) {
                 // log the failure
                 callback.onFailure(call, t);
                 Log.e(TAG, "Failed to retrieve data", t);
@@ -69,6 +68,6 @@ public class RepoSATScore {
     // The Retrofit service that defines the API endpoints for retrieving SAT score data.
     private interface SATScoreService {
         @GET(JSON_SOURCE)
-        Call<List<ModelSATScore>> getScoresBySchool(@Query("dbn") String dbn);
+        Call<List<ModelSATScores>> getScoresBySchool(@Query("dbn") String dbn);
     }
 }

@@ -16,6 +16,11 @@
     <color name="grey45">#8c8c8c</color>
     <color name="grey50">#808080</color>
 
+    <color name="grey_70">#4F4F4F</color>
+
+
+    <color name="grey_90">#2D2D2D</color>
+
     <color name="blue_overcast1">#FF7E9EB0</color>
     <color name="blue_overcast2">#FF5F89A0</color>
     <color name="blue_overcast3">#FF3F6E87</color>
@@ -23,6 +28,11 @@
     <color name="mat_blue">#82B1FF</color>
     <color name="mat_green">#B9F6CA</color>
     <color name="mat_lime">#81C784</color>
+
+    <color name="blue_dk">#3F51B5</color>
+
+    <color name="blue_nyc_open">#00BCD4</color>
+
 
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>

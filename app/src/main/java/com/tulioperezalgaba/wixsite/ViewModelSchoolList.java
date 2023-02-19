@@ -14,19 +14,19 @@ import retrofit2.Response;
 /* school list's view model class that is responsible for fetching and exposing the school's live data in the UI */
 
 public class ViewModelSchoolList extends ViewModel {
-    private RepoSchool schoolRepository;
+    private RepoSchools schoolRepository;
 
-    private MutableLiveData<List<ModelSchool>> schoolsLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<ModelSchools>> schoolsLiveData = new MutableLiveData<>();
     private MutableLiveData<String> errorLiveData = new MutableLiveData<>();
 
     // initialize repository & load schools
     public ViewModelSchoolList() {
-        this.schoolRepository = new RepoSchool();
+        this.schoolRepository = new RepoSchools();
         loadSchools();
     }
 
     // live data getters for schools & errors
-    public LiveData<List<ModelSchool>> getSchoolsLiveData() {
+    public LiveData<List<ModelSchools>> getSchoolsLiveData() {
         return schoolsLiveData;
     }
 
@@ -36,9 +36,9 @@ public class ViewModelSchoolList extends ViewModel {
 
     // load the school data
     void loadSchools() {
-        schoolRepository.getSchools(new Callback<List<ModelSchool>>() {
+        schoolRepository.getSchools(new Callback<List<ModelSchools>>() {
             @Override
-            public void onResponse(Call<List<ModelSchool>> call, Response<List<ModelSchool>> response) {
+            public void onResponse(Call<List<ModelSchools>> call, Response<List<ModelSchools>> response) {
                 if (response.isSuccessful()) {
                     schoolsLiveData.postValue(response.body());
                 } else {
@@ -47,7 +47,7 @@ public class ViewModelSchoolList extends ViewModel {
             }
 
             @Override
-            public void onFailure(Call<List<ModelSchool>> call, Throwable t) {
+            public void onFailure(Call<List<ModelSchools>> call, Throwable t) {
                 errorLiveData.postValue("Error fetching schools data: " + t.getMessage());
             }
         });

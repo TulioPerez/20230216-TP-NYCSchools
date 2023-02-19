@@ -11,14 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 
-/* Adapter for ModelSchool object list, handling item click events and providing alternating item background colors */
+/* Adapter for ModelSchools object list, handling item click events and providing alternating item background colors */
 
 public class AdapterSchoolList extends RecyclerView.Adapter<AdapterSchoolList.ViewHolder> {
 
-    private List<ModelSchool> mSchools;
+    private List<ModelSchools> mSchools;
     private OnSchoolSelectedListener mListener;
 
-    public AdapterSchoolList(List<ModelSchool> schools, OnSchoolSelectedListener listener) {
+    public AdapterSchoolList(List<ModelSchools> schools, OnSchoolSelectedListener listener) {
         mSchools = schools;
         mListener = listener;
     }
@@ -33,7 +33,7 @@ public class AdapterSchoolList extends RecyclerView.Adapter<AdapterSchoolList.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ModelSchool school = mSchools.get(position);
+        ModelSchools school = mSchools.get(position);
         holder.bind(school);
 
         // alternate the background colors of individual items in the view for clarity
@@ -51,11 +51,11 @@ public class AdapterSchoolList extends RecyclerView.Adapter<AdapterSchoolList.Vi
 
     // handle click on individual school item
     public interface OnSchoolSelectedListener {
-        void onSchoolClick(ModelSchool school);
+        void onSchoolClick(ModelSchools school);
     }
 
     // update schools list & notify the adapter to refresh the UI
-    public void setSchools(List<ModelSchool> schools) {
+    public void setSchools(List<ModelSchools> schools) {
         mSchools = schools;
         notifyDataSetChanged();
     }
@@ -72,7 +72,7 @@ public class AdapterSchoolList extends RecyclerView.Adapter<AdapterSchoolList.Vi
             itemView.setOnClickListener(this);
         }
 
-        public void bind(ModelSchool school) {
+        public void bind(ModelSchools school) {
             mTextViewSchoolName.setText(school.getSchool_name());
         }
 

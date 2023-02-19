@@ -6,33 +6,33 @@ import android.os.Parcelable;
 
 /* model class that holds SAT score data */
 
-public class ModelSATScore implements Parcelable {
+public class ModelSATScores implements Parcelable {
     private int sat_critical_reading_avg_score;
     private int sat_math_avg_score;
     private int sat_writing_avg_score;
 
-    public ModelSATScore(int sat_critical_reading_avg_score, int sat_math_avg_score, int sat_writing_avg_score) {
+    public ModelSATScores(int sat_critical_reading_avg_score, int sat_math_avg_score, int sat_writing_avg_score) {
         this.sat_critical_reading_avg_score = sat_critical_reading_avg_score;
         this.sat_math_avg_score = sat_math_avg_score;
         this.sat_writing_avg_score = sat_writing_avg_score;
     }
 
-    protected ModelSATScore(Parcel in) {
+    protected ModelSATScores(Parcel in) {
         sat_critical_reading_avg_score = in.readInt();
         sat_math_avg_score = in.readInt();
         sat_writing_avg_score = in.readInt();
     }
 
-    // Creates ModelSATScore objects from parcel & ModelSATScore object array
-    public static final Creator<ModelSATScore> CREATOR = new Creator<ModelSATScore>() {
+    // Creates ModelSATScores objects from parcel & ModelSATScores object array
+    public static final Creator<ModelSATScores> CREATOR = new Creator<ModelSATScores>() {
         @Override
-        public ModelSATScore createFromParcel(Parcel in) {
-            return new ModelSATScore(in);
+        public ModelSATScores createFromParcel(Parcel in) {
+            return new ModelSATScores(in);
         }
 
         @Override
-        public ModelSATScore[] newArray(int size) {
-            return new ModelSATScore[size];
+        public ModelSATScores[] newArray(int size) {
+            return new ModelSATScores[size];
         }
     };
 

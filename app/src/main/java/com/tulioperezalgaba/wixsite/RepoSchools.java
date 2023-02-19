@@ -15,8 +15,8 @@ import retrofit2.http.Query;
 
 /* repository class that fetches NYC school names and database numbers (Dbn) using the Socrata Open Data API */
 
-public class RepoSchool {
-    private final String TAG = "RepoSchool";
+public class RepoSchools {
+    private final String TAG = "RepoSchools";
 
     // base url & endpoint for the NYC Open Data API
     private static final String BASE_URL = "https://data.cityofnewyork.us/";
@@ -26,7 +26,7 @@ public class RepoSchool {
     private final SchoolService schoolService;
 
     // initialize Retrofit & instantiate SchoolService
-    public RepoSchool() {
+    public RepoSchools() {
         Retrofit retrofitBuilder = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -35,11 +35,11 @@ public class RepoSchool {
     }
 
     // fetches list of NYC schools
-    public void getSchools(Callback<List<ModelSchool>> callback) {
-        Call<List<ModelSchool>> call = schoolService.getSchools();
-        call.enqueue(new Callback<List<ModelSchool>>() {
+    public void getSchools(Callback<List<ModelSchools>> callback) {
+        Call<List<ModelSchools>> call = schoolService.getSchools();
+        call.enqueue(new Callback<List<ModelSchools>>() {
             @Override
-            public void onResponse(Call<List<ModelSchool>> call, Response<List<ModelSchool>> response) {
+            public void onResponse(Call<List<ModelSchools>> call, Response<List<ModelSchools>> response) {
 
                 // did we get a valid response?
                 Log.i(TAG, "API response code (getSchools): " + response.code() + " response message: " + response.message());
@@ -57,7 +57,7 @@ public class RepoSchool {
             }
 
             @Override
-            public void onFailure(Call<List<ModelSchool>> call, Throwable t) {
+            public void onFailure(Call<List<ModelSchools>> call, Throwable t) {
                 // log the failure
                 callback.onFailure(call, t);
                 Log.e(TAG, "Failed to retrieve data", t);
@@ -65,17 +65,17 @@ public class RepoSchool {
         });
     }
 
-    public void getSchoolByDbn(String dbn, Callback<List<ModelSchool>> callback) {
-        Call<List<ModelSchool>> call = schoolService.getSchoolsByDbn(dbn);
-        call.enqueue(new Callback<List<ModelSchool>>() {
+    public void getSchoolByDbn(String dbn, Callback<List<ModelSchools>> callback) {
+        Call<List<ModelSchools>> call = schoolService.getSchoolsByDbn(dbn);
+        call.enqueue(new Callback<List<ModelSchools>>() {
             @Override
-            public void onResponse(Call<List<ModelSchool>> call, Response<List<ModelSchool>> response) {
+            public void onResponse(Call<List<ModelSchools>> call, Response<List<ModelSchools>> response) {
                 // did we get a response?
                 Log.i(TAG, "API response code (getSchoolByDbn): " + response.code() + "response msg: " + response.message());
 
                 if (response.isSuccessful()) {
                     // we caught a live one!
-                    List<ModelSchool> schools = response.body();
+                    List<ModelSchools> schools = response.body();
                     callback.onResponse(call, response);
                     Log.i(TAG, "Fetched school list size (by Dbn): " + response.body().size());
 
@@ -87,7 +87,7 @@ public class RepoSchool {
             }
 
             @Override
-            public void onFailure(Call<List<ModelSchool>> call, Throwable t) {
+            public void onFailure(Call<List<ModelSchools>> call, Throwable t) {
                 // log the failure
                 callback.onFailure(call, t);
                 Log.e(TAG, "Failed to retrieve data", t);
@@ -97,9 +97,9 @@ public class RepoSchool {
 
     private interface SchoolService {
         @GET(JSON_SOURCE)
-        Call<List<ModelSchool>> getSchools();
+        Call<List<ModelSchools>> getSchools();
 
         @GET(JSON_SOURCE)
-        Call<List<ModelSchool>> getSchoolsByDbn(@Query("dbn") String dbn);
+        Call<List<ModelSchools>> getSchoolsByDbn(@Query("dbn") String dbn);
     }
 }

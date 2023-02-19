@@ -10,6 +10,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 /* Initial (launcher) activity used to display a list of NYC schools */
 
 public class ActivitySchoolList extends AppCompatActivity implements AdapterSchoolList.OnSchoolSelectedListener {
+    private final String TAG = "ActivitySchoolList";
 
     private RecyclerView mRecyclerView;
     private AdapterSchoolList mAdapter;
@@ -30,7 +32,7 @@ public class ActivitySchoolList extends AppCompatActivity implements AdapterScho
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_school_list);
+        setContentView(R.layout.activity_school_list);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
         // initialize views
@@ -51,8 +53,10 @@ public class ActivitySchoolList extends AppCompatActivity implements AdapterScho
         });
 
         mViewModel.getErrorLiveData().observe(this, error -> {
-            Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
             mSwipeRefreshLayout.setRefreshing(false); // stop the animation
+
+            Toast.makeText(this, R.string.no_data_now, Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "onCreate: " + error);
         });
 
         // setup refresh listener
@@ -65,9 +69,9 @@ public class ActivitySchoolList extends AppCompatActivity implements AdapterScho
 
     // handle click events on school items
     @Override
-    public void onSchoolClick(ModelSchool school) {
-        Intent intent = new Intent(this, ActivityDetailSatScores.class);
-        intent.putExtra(ActivityDetailSatScores.EXTRA_SCHOOL_DBN, school);
+    public void onSchoolClick(ModelSchools school) {
+        Intent intent = new Intent(this, ActivitySatScores.class);
+        intent.putExtra(ActivitySatScores.EXTRA_SCHOOL_DBN, school);
         startActivity(intent);
 
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
