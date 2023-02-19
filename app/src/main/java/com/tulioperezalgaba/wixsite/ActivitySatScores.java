@@ -9,12 +9,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class ActivitySatScores extends AppCompatActivity {
-    private static final String SCHOOL_EXTRA = "school_extra";
     public static final String EXTRA_SCHOOL_DBN = "extra_school_dbn";
 
     private ViewModelSATScores schoolDetailViewModel;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     private TextView schoolNameTextView;
     private TextView satReadingTextView;
     private TextView satMathTextView;
@@ -26,8 +28,54 @@ public class ActivitySatScores extends AppCompatActivity {
         setContentView(R.layout.activity_school_detail);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
+
+        // setup refresh listener
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            // Refresh the data when the user pulls down on the SwipeRefreshLayout
+            fetchData();
+        });
+
         schoolDetailViewModel = new ViewModelProvider(this).get(ViewModelSATScores.class);
 
+        fetchData();
+    }
+
+    private void updateSchoolDetails(ModelSchool school) {
+        swipeRefreshLayout.setRefreshing(false);
+
+        Log.d("ActivitySatScores", "updateSchoolDetails: " + school.getSchool_name());
+        if (school.getSatScores() != null) {
+            satReadingTextView.setText(String.valueOf(school.getSatScores().get(0).getSat_critical_reading_avg_score()));
+            satMathTextView.setText(String.valueOf(school.getSatScores().get(0).getSat_math_avg_score()));
+            satWritingTextView.setText(String.valueOf(school.getSatScores().get(0).getSat_writing_avg_score()));
+        } else {
+            satReadingTextView.setText(getString(R.string.no_data));
+            satMathTextView.setText(getString(R.string.no_data));
+            satWritingTextView.setText(getString(R.string.no_data));
+        }
+
+    }
+
+    private void showError(String error) {
+        swipeRefreshLayout.setRefreshing(false);
+
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        schoolDetailViewModel = null;
+        super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    private void fetchData() {
         ModelSchool school = getIntent().getParcelableExtra(EXTRA_SCHOOL_DBN);
         if (school != null) {
             schoolNameTextView = findViewById(R.id.textViewSchoolName);
@@ -45,30 +93,10 @@ public class ActivitySatScores extends AppCompatActivity {
         } else {
             Log.d("ActivitySatScores", "School data not found");
         }
+//        ModelSchool school = getIntent().getParcelableExtra(EXTRA_SCHOOL_DBN);
+//        if (school != null) {
+//            schoolDetailViewModel.loadSchoolDetails(school.getDbn());
+//        }
     }
 
-    private void updateSchoolDetails(ModelSchool school) {
-        Log.d("ActivitySatScores", "updateSchoolDetails: " + school.getSchool_name());
-        if (school.getSatScores() != null) {
-            satReadingTextView.setText(String.valueOf(school.getSatScores().get(0).getSat_critical_reading_avg_score()));
-            satMathTextView.setText(String.valueOf(school.getSatScores().get(0).getSat_math_avg_score()));
-            satWritingTextView.setText(String.valueOf(school.getSatScores().get(0).getSat_writing_avg_score()));
-        } else {
-            satReadingTextView.setText(getString(R.string.no_data));
-            satMathTextView.setText(getString(R.string.no_data));
-            satWritingTextView.setText(getString(R.string.no_data));
-        }
-
-    }
-
-    private void showError(String error) {
-        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onDestroy() {
-        schoolDetailViewModel = null;
-
-        super.onDestroy();
-    }
 }

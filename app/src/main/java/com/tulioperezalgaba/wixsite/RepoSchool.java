@@ -33,16 +33,12 @@ public class RepoSchool {
         call.enqueue(new Callback<List<ModelSchool>>() {
             @Override
             public void onResponse(Call<List<ModelSchool>> call, Response<List<ModelSchool>> response) {
-                Log.i("###RepoSchool", "API response code: " + response.code());
-                Log.d("###RepoSchool", "API response body: " + response.body());
+                Log.i("###RepoSchool", "API " +
+                        "response code: " + response.code() + "\n\t" +
+                        "response body: " + response.body());
 
                 if (response.isSuccessful()) {
-
-                    // Log the successful retrieval of information
-                    Log.i("###RepoSchool", "Retrieved information successfully. List size: " + response.body().size());
-                    Log.i("###RepoSchool", "Retrieved information successfully. Dbn: " + response.body().get(0).getDbn());
-                    Log.i("###RepoSchool", "Retrieved information successfully. Item [0] name: " + response.body().get(0).getSchool_name());
-
+                    Log.i("###RepoSchool", "Fetched list size: " + response.body().size());
 
                     callback.onResponse(call, response);
 
@@ -74,28 +70,24 @@ public class RepoSchool {
         call.enqueue(new Callback<List<ModelSchool>>() {
             @Override
             public void onResponse(Call<List<ModelSchool>> call, Response<List<ModelSchool>> response) {
-                Log.i("###RepoSchool", "API response code: " + response.code());
-                Log.d("###RepoSchool", "API response body: " + response.body());
+                Log.i("###RepoSchool", "API " +
+                        "response code: " + response.code() + "\n\t" +
+                        "response body: " + response.body());
 
                 if (response.isSuccessful()) {
                     List<ModelSchool> schools = response.body();
-                    Log.d("###RepoSchool", "API response body: " + schools.toString());
-                    for (ModelSchool school : schools) {
-                        Log.d("###RepoSchool", "School Name: " + school.getSchool_name());
-                        Log.d("###RepoSchool", "DBN: " + school.getDbn());
-                        // add more fields to print here
-                    }
                     callback.onResponse(call, response);
+                    Log.i("###RepoSchool", "Fetched list size: " + response.body().size());
                 } else {
-                    Log.e("###RepoSchool", "Failed to retrieve information: " + response.code());
                     callback.onFailure(call, new Throwable("Failed to retrieve information: " + response.code()));
+                    Log.e("###RepoSchool", "Failed to retrieve information: " + response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<List<ModelSchool>> call, Throwable t) {
-                Log.e("***RepoSchool", "Failed to retrieve information", t);
                 callback.onFailure(call, t);
+                Log.e("***RepoSchool", "Failed to retrieve information", t);
             }
         });
     }
