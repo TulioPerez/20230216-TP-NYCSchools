@@ -56,12 +56,23 @@ public class ViewModelSATScores extends ViewModel {
     }
 
     private void loadSATScoresForSchool(String dbn, ModelSchool school) {
-        try {
-            List<ModelSATScore> scores = satScoreRepository.getScoresBySchool(dbn);
-            school.setSatScores(scores);
-            schoolLiveData.postValue(school);
-        } catch (IOException e) {
-            errorLiveData.postValue("Error fetching SAT scores data: " + e.getMessage());
-        }
+        satScoreRepository.getScoresBySchool(dbn, new Callback<List<ModelSATScore>>() {
+            @Override
+            public void onResponse(Call<List<ModelSATScore>> call, Response<List<ModelSATScore>> response) {
+                if (response.isSuccessful()) {
+                    List<ModelSATScore> scores = response.body();
+                    school.setSatScores(scores);
+                    schoolLiveData.postValue(school);
+                } else {
+                    errorLiveData.postValue("Error fetching SAT scores data: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ModelSATScore>> call, Throwable t) {
+                errorLiveData.postValue("Error fetching SAT scores data: " + t.getMessage());
+            }
+        });
     }
+
 }

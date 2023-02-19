@@ -27,21 +27,11 @@ public class RepoSATScore {
         satService = retrofitBuilder.create(SATService.class);
     }
 
-    public List<ModelSATScore> getScoresBySchool(String dbn) throws IOException {
+    public void getScoresBySchool(String dbn, Callback<List<ModelSATScore>> callback) {
         Call<List<ModelSATScore>> call = satService.getScoresBySchool(dbn);
-        Response<List<ModelSATScore>> response = call.execute();
-        if (response.isSuccessful()) {
-
-            // Log the successful retrieval of information
-            Log.i("###RepoSATScore", "Retrieved information successfully. List size: " + response.body().size());
-            return response.body();
-        } else {
-            // Log the unsuccessful retrieval of information
-            Log.e("###RepoSATScore", "Failed to retrieve information: " + response.code());
-            throw new IOException("Failed to retrieve information: " + response.code());
-        }
+        call.enqueue(callback);
     }
-
+    
     private interface SATService {
         @GET(JSON_SOURCE)
         Call<List<ModelSATScore>> getScoresBySchool(@Query("dbn") String dbn);
