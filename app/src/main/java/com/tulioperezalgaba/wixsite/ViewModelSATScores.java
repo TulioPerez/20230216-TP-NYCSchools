@@ -4,12 +4,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+
+/* detail activity's view model class that is responsible for fetching and exposing the SAT score's live data in the UI */
 
 public class ViewModelSATScores extends ViewModel {
     private RepoSchool schoolRepository;
@@ -17,6 +19,7 @@ public class ViewModelSATScores extends ViewModel {
     private MutableLiveData<ModelSchool> schoolLiveData = new MutableLiveData<>();
     private MutableLiveData<String> errorLiveData = new MutableLiveData<>();
 
+    // initialize repository & loads scores
     public ViewModelSATScores() {
         this.schoolRepository = new RepoSchool();
         this.satScoreRepository = new RepoSATScore();
@@ -28,6 +31,7 @@ public class ViewModelSATScores extends ViewModel {
         loadSchoolDetails(dbn);
     }
 
+    // live data getters for scores & errors
     public LiveData<ModelSchool> getSchoolLiveData() {
         return schoolLiveData;
     }
@@ -36,6 +40,7 @@ public class ViewModelSATScores extends ViewModel {
         return errorLiveData;
     }
 
+    // load the school data
     void loadSchoolDetails(String dbn) {
         schoolRepository.getSchoolByDbn(dbn, new Callback<List<ModelSchool>>() {
             @Override
@@ -55,6 +60,7 @@ public class ViewModelSATScores extends ViewModel {
         });
     }
 
+    // load the scores data
     private void loadSATScoresForSchool(String dbn, ModelSchool school) {
         satScoreRepository.getScoresBySchool(dbn, new Callback<List<ModelSATScore>>() {
             @Override

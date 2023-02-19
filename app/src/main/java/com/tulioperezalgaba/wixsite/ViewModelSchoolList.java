@@ -10,16 +10,22 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
+/* school list's view model class that is responsible for fetching and exposing the school's live data in the UI */
+
 public class ViewModelSchoolList extends ViewModel {
     private RepoSchool schoolRepository;
+
     private MutableLiveData<List<ModelSchool>> schoolsLiveData = new MutableLiveData<>();
     private MutableLiveData<String> errorLiveData = new MutableLiveData<>();
 
+    // initialize repository & load schools
     public ViewModelSchoolList() {
         this.schoolRepository = new RepoSchool();
         loadSchools();
     }
 
+    // live data getters for schools & errors
     public LiveData<List<ModelSchool>> getSchoolsLiveData() {
         return schoolsLiveData;
     }
@@ -28,6 +34,7 @@ public class ViewModelSchoolList extends ViewModel {
         return errorLiveData;
     }
 
+    // load the school data
     void loadSchools() {
         schoolRepository.getSchools(new Callback<List<ModelSchool>>() {
             @Override

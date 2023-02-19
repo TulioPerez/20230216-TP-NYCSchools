@@ -30,7 +30,7 @@
         </activity>
 
         <activity
-            android:name=".ActivitySatScores"
+            android:name=".ActivityDetailSatScores"
             android:exported="true">
 
             <meta-data

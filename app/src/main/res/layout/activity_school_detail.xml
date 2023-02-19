@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:gravity="center"
-            android:text="school name"
+            android:text="school_name"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -29,7 +29,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="SAT AVERAGE SCORES"
+            android:text="AVERAGE SAT SCORES"
             android:textSize="18sp"
             android:textStyle="bold" />
 

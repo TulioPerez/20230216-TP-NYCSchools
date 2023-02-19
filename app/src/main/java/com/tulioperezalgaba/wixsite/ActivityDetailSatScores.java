@@ -11,7 +11,11 @@ import android.widget.Toast;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-public class ActivitySatScores extends AppCompatActivity {
+
+/* Detail activity displaying SAT scores for school in initial activity */
+
+public class ActivityDetailSatScores extends AppCompatActivity {
+    private final String TAG = "ActivityDetailSatScores";
     public static final String EXTRA_SCHOOL_DBN = "extra_school_dbn";
 
     private ViewModelSATScores schoolDetailViewModel;
@@ -28,75 +32,78 @@ public class ActivitySatScores extends AppCompatActivity {
         setContentView(R.layout.activity_school_detail);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
+        // initialize views
+        schoolNameTextView = findViewById(R.id.textViewSchoolName);
+        satReadingTextView = findViewById(R.id.textViewSATReading);
+        satMathTextView = findViewById(R.id.textViewSATMath);
+        satWritingTextView = findViewById(R.id.textViewSATEnglish);
 
         // setup refresh listener
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            // Refresh the data when the user pulls down on the SwipeRefreshLayout
             fetchData();
         });
 
+        // initialize view model instance & fetch data
         schoolDetailViewModel = new ViewModelProvider(this).get(ViewModelSATScores.class);
 
         fetchData();
     }
 
+    // updates the UI with SAT score data
     private void updateSchoolDetails(ModelSchool school) {
         swipeRefreshLayout.setRefreshing(false);
 
-        Log.d("ActivitySatScores", "updateSchoolDetails: " + school.getSchool_name());
-        if (school.getSatScores() != null) {
+        if (school.getSatScores() != null && !school.getSatScores().isEmpty()) {
             satReadingTextView.setText(String.valueOf(school.getSatScores().get(0).getSat_critical_reading_avg_score()));
             satMathTextView.setText(String.valueOf(school.getSatScores().get(0).getSat_math_avg_score()));
             satWritingTextView.setText(String.valueOf(school.getSatScores().get(0).getSat_writing_avg_score()));
-        } else {
-            satReadingTextView.setText(getString(R.string.no_data));
-            satMathTextView.setText(getString(R.string.no_data));
-            satWritingTextView.setText(getString(R.string.no_data));
-        }
 
+        } else {
+            Toast.makeText(this, R.string.no_data_now, Toast.LENGTH_SHORT).show();
+            satReadingTextView.setText(getString(R.string.null_data));
+            satMathTextView.setText(getString(R.string.null_data));
+            satWritingTextView.setText(getString(R.string.null_data));
+
+            Log.d(TAG, "updateSchoolDetails: " + "Scores list is null or empty");
+        }
+    }
+
+    // fetches / refreshes SAT score data
+    private void fetchData() {
+        Log.d(TAG, "Refreshing data");
+
+        ModelSchool school = getIntent().getParcelableExtra(EXTRA_SCHOOL_DBN);
+        if (school != null) {
+            Log.d(TAG, "School data fetched successfully");
+            schoolNameTextView.setText(school.getSchool_name());
+            schoolDetailViewModel.loadSchoolDetails(school.getDbn());
+
+            // check for changes to live data
+            schoolDetailViewModel.getSchoolLiveData().observe(this, this::updateSchoolDetails);
+            schoolDetailViewModel.getErrorLiveData().observe(this, this::showError);
+
+        } else {
+            Log.d(TAG, "School data not found");
+        }
     }
 
     private void showError(String error) {
         swipeRefreshLayout.setRefreshing(false);
-
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    protected void onDestroy() {
-        schoolDetailViewModel = null;
-        super.onDestroy();
-    }
-
+    // improved transition back to ActivitySchoolList
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
-    private void fetchData() {
-        ModelSchool school = getIntent().getParcelableExtra(EXTRA_SCHOOL_DBN);
-        if (school != null) {
-            schoolNameTextView = findViewById(R.id.textViewSchoolName);
-            satReadingTextView = findViewById(R.id.textViewSATReading);
-            satMathTextView = findViewById(R.id.textViewSATMath);
-            satWritingTextView = findViewById(R.id.textViewSATEnglish);
-
-            schoolDetailViewModel.loadSchoolDetails(school.getDbn());
-            schoolDetailViewModel.getSchoolLiveData().observe(this, this::updateSchoolDetails);
-            schoolDetailViewModel.getErrorLiveData().observe(this, this::showError);
-
-            schoolNameTextView.setText(school.getSchool_name());
-
-
-        } else {
-            Log.d("ActivitySatScores", "School data not found");
-        }
-//        ModelSchool school = getIntent().getParcelableExtra(EXTRA_SCHOOL_DBN);
-//        if (school != null) {
-//            schoolDetailViewModel.loadSchoolDetails(school.getDbn());
-//        }
+    @Override
+    protected void onDestroy() {
+        schoolDetailViewModel = null;
+        super.onDestroy();
     }
 
 }

@@ -12,14 +12,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-public class RepoSchool {
 
+/* repository class that fetches NYC school names and database numbers (Dbn) using the Socrata Open Data API */
+
+public class RepoSchool {
+    private final String TAG = "RepoSchool";
+
+    // base url & endpoint for the NYC Open Data API
     private static final String BASE_URL = "https://data.cityofnewyork.us/";
     private static final String JSON_SOURCE = "resource/s3k6-pzi2.json";
 
-
+    // Retrofit service for retrieving school data
     private final SchoolService schoolService;
 
+    // initialize Retrofit & instantiate SchoolService
     public RepoSchool() {
         Retrofit retrofitBuilder = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -28,39 +34,33 @@ public class RepoSchool {
         schoolService = retrofitBuilder.create(SchoolService.class);
     }
 
+    // fetches list of NYC schools
     public void getSchools(Callback<List<ModelSchool>> callback) {
         Call<List<ModelSchool>> call = schoolService.getSchools();
         call.enqueue(new Callback<List<ModelSchool>>() {
             @Override
             public void onResponse(Call<List<ModelSchool>> call, Response<List<ModelSchool>> response) {
-                Log.i("###RepoSchool", "API " +
-                        "response code: " + response.code() + "\n\t" +
-                        "response body: " + response.body());
+
+                // did we get a valid response?
+                Log.i(TAG, "API response code (getSchools): " + response.code() + " response message: " + response.message());
 
                 if (response.isSuccessful()) {
-                    Log.i("###RepoSchool", "Fetched list size: " + response.body().size());
-
+                    // yep, we caught a live one!
                     callback.onResponse(call, response);
-
-                    List<ModelSchool> schools = response.body();
-                    if (schools != null && schools.size() > 0) {
-                        // Print the first entry in the response
-                    }
-
-                    callback.onResponse(call, response);
+                    Log.i(TAG, "Fetched school list size: " + response.body().size());
 
                 } else {
-                    // Log the unsuccessful retrieval of information
-                    Log.e("###RepoSchool", "Failed to retrieve information: " + response.code());
+                    // log the error
                     callback.onFailure(call, new Throwable("Failed to retrieve information: " + response.code()));
+                    Log.e(TAG, "Failed to retrieve data: " + response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<List<ModelSchool>> call, Throwable t) {
-                Log.e("###RepoSchool", "API request failed to retrieve information: " + t.getMessage(), t);
-
+                // log the failure
                 callback.onFailure(call, t);
+                Log.e(TAG, "Failed to retrieve data", t);
             }
         });
     }
@@ -70,24 +70,27 @@ public class RepoSchool {
         call.enqueue(new Callback<List<ModelSchool>>() {
             @Override
             public void onResponse(Call<List<ModelSchool>> call, Response<List<ModelSchool>> response) {
-                Log.i("###RepoSchool", "API " +
-                        "response code: " + response.code() + "\n\t" +
-                        "response body: " + response.body());
+                // did we get a response?
+                Log.i(TAG, "API response code (getSchoolByDbn): " + response.code() + "response msg: " + response.message());
 
                 if (response.isSuccessful()) {
+                    // we caught a live one!
                     List<ModelSchool> schools = response.body();
                     callback.onResponse(call, response);
-                    Log.i("###RepoSchool", "Fetched list size: " + response.body().size());
+                    Log.i(TAG, "Fetched school list size (by Dbn): " + response.body().size());
+
                 } else {
+                    // log the error
                     callback.onFailure(call, new Throwable("Failed to retrieve information: " + response.code()));
-                    Log.e("###RepoSchool", "Failed to retrieve information: " + response.code());
+                    Log.e(TAG, "Failed to retrieve data: " + response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<List<ModelSchool>> call, Throwable t) {
+                // log the failure
                 callback.onFailure(call, t);
-                Log.e("***RepoSchool", "Failed to retrieve information", t);
+                Log.e(TAG, "Failed to retrieve data", t);
             }
         });
     }
