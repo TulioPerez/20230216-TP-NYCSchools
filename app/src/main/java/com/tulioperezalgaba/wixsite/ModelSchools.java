@@ -2,6 +2,7 @@ package com.tulioperezalgaba.wixsite;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import java.util.List;
 
@@ -9,15 +10,11 @@ import java.util.List;
 /* model class that holds School data and holds a list of SAT scores */
 
 public class ModelSchools implements Parcelable {
+    private final String TAG = "ModelSchools";
+
     private String school_name;
     private String dbn;
     private List<ModelSATScores> satScores;
-
-    public ModelSchools(String dbn, String school_name, List<ModelSATScores> satScores) {
-        this.dbn = dbn;
-        this.school_name = school_name;
-        this.satScores = satScores;
-    }
 
     protected ModelSchools(Parcel in) {
         dbn = in.readString();
@@ -47,6 +44,8 @@ public class ModelSchools implements Parcelable {
     public void writeToParcel(Parcel parcelSchool, int i) {
         parcelSchool.writeString(dbn);
         parcelSchool.writeString(school_name);
+
+        Log.d(TAG, "ModelSchools object written to parcel: " + dbn + ", " + school_name);
     }
 
     // getters
@@ -62,17 +61,10 @@ public class ModelSchools implements Parcelable {
         return satScores;
     }
 
-    // setters
-    public void setDbn(String dbn) {
-        this.dbn = dbn;
-    }
-
-    public void setSchool_name(String school_name) {
-        this.school_name = school_name;
-    }
-
     public void setSatScores(List<ModelSATScores> satScores) {
         this.satScores = satScores;
+        Log.d(TAG, "ModelSchools satScores list set, size: " + satScores.size());
+
     }
 
 }

@@ -71,7 +71,7 @@ public class ActivitySatScores extends AppCompatActivity {
 
     // fetches / refreshes SAT score data
     private void fetchData() {
-        Log.d(TAG, "Refreshing data");
+        Log.d(TAG, "Fetching data");
 
         ModelSchools school = getIntent().getParcelableExtra(EXTRA_SCHOOL_DBN);
         if (school != null) {

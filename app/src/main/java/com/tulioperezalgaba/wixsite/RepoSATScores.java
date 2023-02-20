@@ -40,17 +40,15 @@ public class RepoSATScores {
         call.enqueue(new Callback<List<ModelSATScores>>() {
             @Override
             public void onResponse(Call<List<ModelSATScores>> call, Response<List<ModelSATScores>> response) {
-
                 // did we get a valid response?
                 Log.i(TAG, "API response code (getScoresBySchool): " + response.code() + " response message: " + response.message());
 
                 if (response.isSuccessful()) {
-                    // yep, we caught a live one!
+                    // got a live one!
                     callback.onResponse(call, response);
-                    Log.i(TAG, "Fetched item count: " + response.body().size());
 
                 } else {
-                    // no, log the error
+                    // no - log the error
                     callback.onFailure(call, new Throwable("Failed to retrieve information: " + response.code()));
                     Log.e(TAG, "Failed to retrieve data: " + response.code());
                 }
@@ -70,4 +68,5 @@ public class RepoSATScores {
         @GET(JSON_SOURCE)
         Call<List<ModelSATScores>> getScoresBySchool(@Query("dbn") String dbn);
     }
+
 }

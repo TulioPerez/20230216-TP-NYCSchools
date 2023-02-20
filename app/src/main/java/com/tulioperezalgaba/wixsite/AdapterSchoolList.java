@@ -1,5 +1,6 @@
 package com.tulioperezalgaba.wixsite;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import java.util.List;
 /* Adapter for ModelSchools object list, handling item click events and providing alternating item background colors */
 
 public class AdapterSchoolList extends RecyclerView.Adapter<AdapterSchoolList.ViewHolder> {
+    private final String TAG = "AdapterSchoolList";
 
     private List<ModelSchools> mSchools;
     private OnSchoolSelectedListener mListener;
@@ -46,6 +48,7 @@ public class AdapterSchoolList extends RecyclerView.Adapter<AdapterSchoolList.Vi
 
     @Override
     public int getItemCount() {
+        Log.d(TAG, "getItemCount: " + mSchools.size());
         return mSchools.size();
     }
 
@@ -80,6 +83,7 @@ public class AdapterSchoolList extends RecyclerView.Adapter<AdapterSchoolList.Vi
         @Override
         public void onClick(View view) {
             mListener.onSchoolClick(mSchools.get(getAdapterPosition()));
+            Log.d(TAG, "ViewHolder onClick " + mSchools.get(getAdapterPosition()).getSchool_name());
         }
     }
 }

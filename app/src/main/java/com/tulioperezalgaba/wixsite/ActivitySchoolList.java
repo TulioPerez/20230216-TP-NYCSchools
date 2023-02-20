@@ -79,6 +79,8 @@ public class ActivitySchoolList extends AppCompatActivity implements AdapterScho
 
     // fetches / refreshes school data
     private void fetchData() {
+        Log.d(TAG, "Fetching data");
+
         mSwipeRefreshLayout.setRefreshing(true);
         mViewModel.loadSchools();
     }

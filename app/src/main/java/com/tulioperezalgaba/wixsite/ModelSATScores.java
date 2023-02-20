@@ -2,20 +2,17 @@ package com.tulioperezalgaba.wixsite;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 
 /* model class that holds SAT score data */
 
 public class ModelSATScores implements Parcelable {
+    private final String TAG = "ModelSATScores";
+
     private int sat_critical_reading_avg_score;
     private int sat_math_avg_score;
     private int sat_writing_avg_score;
-
-    public ModelSATScores(int sat_critical_reading_avg_score, int sat_math_avg_score, int sat_writing_avg_score) {
-        this.sat_critical_reading_avg_score = sat_critical_reading_avg_score;
-        this.sat_math_avg_score = sat_math_avg_score;
-        this.sat_writing_avg_score = sat_writing_avg_score;
-    }
 
     protected ModelSATScores(Parcel in) {
         sat_critical_reading_avg_score = in.readInt();
@@ -47,8 +44,10 @@ public class ModelSATScores implements Parcelable {
         parcelSATscores.writeInt(sat_critical_reading_avg_score);
         parcelSATscores.writeInt(sat_math_avg_score);
         parcelSATscores.writeInt(sat_writing_avg_score);
-    }
 
+        Log.d(TAG, "ModelSATScores object written to parcel: " + sat_critical_reading_avg_score + ", " + sat_math_avg_score + ", " + sat_writing_avg_score);
+
+    }
 
     // getters
     public int getSat_critical_reading_avg_score() {
@@ -61,19 +60,6 @@ public class ModelSATScores implements Parcelable {
 
     public int getSat_writing_avg_score() {
         return sat_writing_avg_score;
-    }
-
-    // setters
-    public void setSat_critical_reading_avg_score(int sat_critical_reading_avg_score) {
-        this.sat_critical_reading_avg_score = sat_critical_reading_avg_score;
-    }
-
-    public void setSat_math_avg_score(int sat_math_avg_score) {
-        this.sat_math_avg_score = sat_math_avg_score;
-    }
-
-    public void setSat_writing_avg_score(int sat_writing_avg_score) {
-        this.sat_writing_avg_score = sat_writing_avg_score;
     }
 
 }

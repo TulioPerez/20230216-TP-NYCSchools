@@ -40,17 +40,16 @@ public class RepoSchools {
         call.enqueue(new Callback<List<ModelSchools>>() {
             @Override
             public void onResponse(Call<List<ModelSchools>> call, Response<List<ModelSchools>> response) {
-
                 // did we get a valid response?
                 Log.i(TAG, "API response code (getSchools): " + response.code() + " response message: " + response.message());
 
                 if (response.isSuccessful()) {
-                    // yep, we caught a live one!
+                    // got a live one!
                     callback.onResponse(call, response);
                     Log.i(TAG, "Fetched school list size: " + response.body().size());
 
                 } else {
-                    // log the error
+                    // no - log the error
                     callback.onFailure(call, new Throwable("Failed to retrieve information: " + response.code()));
                     Log.e(TAG, "Failed to retrieve data: " + response.code());
                 }
@@ -70,17 +69,17 @@ public class RepoSchools {
         call.enqueue(new Callback<List<ModelSchools>>() {
             @Override
             public void onResponse(Call<List<ModelSchools>> call, Response<List<ModelSchools>> response) {
-                // did we get a response?
-                Log.i(TAG, "API response code (getSchoolByDbn): " + response.code() + "response msg: " + response.message());
+                // did we get a valid response?
+                Log.i(TAG, "API response code (getSchoolByDbn): " + response.code() + " response message: " + response.message());
 
                 if (response.isSuccessful()) {
-                    // we caught a live one!
+                    // got a live one!
                     List<ModelSchools> schools = response.body();
                     callback.onResponse(call, response);
-                    Log.i(TAG, "Fetched school list size (by Dbn): " + response.body().size());
+                    Log.i(TAG, "Fetched school list size: " + response.body().size());
 
                 } else {
-                    // log the error
+                    // no - log the error
                     callback.onFailure(call, new Throwable("Failed to retrieve information: " + response.code()));
                     Log.e(TAG, "Failed to retrieve data: " + response.code());
                 }
