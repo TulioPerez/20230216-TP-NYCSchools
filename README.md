@@ -9,7 +9,6 @@ It was built using Java with an MVVM pattern utilizing Retrofit for fetching dat
 Its main components include:
 	+ Two activities: ActivitySchoolList: the launcher activity that presents a list of NYC schools to the user
 			ActivitySatScores: the detail view for a school that was clicked
-
 	+ AdapterSchoolList: RecylerView adapter for ActivitySchoolList
 	+ Repository classes: RepoSchools & RepoSATScores
 	+ Model Classes: ModelSchools & ModelSATScores
@@ -27,4 +26,3 @@ Future additions would include:
 	+ "Compare" view with side by side results of selected schools' SAT school scores
 	+ A SearchView search bar to find schools more quickly by name or location
 	+ String translations of descriptions, etc., for speakers of other languages who may be interested in attending a particular school
-	+ 
