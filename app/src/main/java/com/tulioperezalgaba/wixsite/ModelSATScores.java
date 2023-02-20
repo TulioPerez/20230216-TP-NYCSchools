@@ -44,9 +44,7 @@ public class ModelSATScores implements Parcelable {
         parcelSATscores.writeInt(sat_critical_reading_avg_score);
         parcelSATscores.writeInt(sat_math_avg_score);
         parcelSATscores.writeInt(sat_writing_avg_score);
-
-        Log.d(TAG, "ModelSATScores object written to parcel: " + sat_critical_reading_avg_score + ", " + sat_math_avg_score + ", " + sat_writing_avg_score);
-
+//        Log.d(TAG, "ModelSATScores object written to parcel: " + sat_critical_reading_avg_score + ", " + sat_math_avg_score + ", " + sat_writing_avg_score);
     }
 
     // getters

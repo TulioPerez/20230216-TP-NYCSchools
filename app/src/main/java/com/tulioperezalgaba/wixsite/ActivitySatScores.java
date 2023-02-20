@@ -76,12 +76,12 @@ public class ActivitySatScores extends AppCompatActivity {
         ModelSchools school = getIntent().getParcelableExtra(EXTRA_SCHOOL_DBN);
         if (school != null) {
             schoolNameTextView.setText(school.getSchool_name());
-            schoolDetailViewModel.loadSchoolDetails(school.getDbn());
+            schoolDetailViewModel.loadSchoolData(school.getDbn());
 
             // check for changes to live data
             schoolDetailViewModel.getSchoolLiveData().observe(this, this::updateSchoolDetails);
             schoolDetailViewModel.getErrorLiveData().observe(this, this::showError);
-            Log.d(TAG, "School data fetched successfully for: " + school.getSchool_name());
+//            Log.d(TAG, "School data fetched successfully for: " + school.getSchool_name());
 
         } else {
             Log.d(TAG, "School data not found");
@@ -100,12 +100,6 @@ public class ActivitySatScores extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-    }
-
-    @Override
-    protected void onDestroy() {
-        schoolDetailViewModel = null;
-        super.onDestroy();
     }
 
 }

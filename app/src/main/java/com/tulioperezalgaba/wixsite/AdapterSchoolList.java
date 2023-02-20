@@ -48,7 +48,7 @@ public class AdapterSchoolList extends RecyclerView.Adapter<AdapterSchoolList.Vi
 
     @Override
     public int getItemCount() {
-        Log.d(TAG, "getItemCount: " + mSchools.size());
+//        Log.d(TAG, "getItemCount: " + mSchools.size());
         return mSchools.size();
     }
 
@@ -85,6 +85,13 @@ public class AdapterSchoolList extends RecyclerView.Adapter<AdapterSchoolList.Vi
             mListener.onSchoolClick(mSchools.get(getAdapterPosition()));
             Log.d(TAG, "ViewHolder onClick " + mSchools.get(getAdapterPosition()).getSchool_name());
         }
+    }
+
+    // cleanup when exiting the app
+    @Override
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
+        mListener = null;
+        super.onDetachedFromRecyclerView(recyclerView);
     }
 }
 

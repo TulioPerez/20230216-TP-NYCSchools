@@ -44,8 +44,7 @@ public class ModelSchools implements Parcelable {
     public void writeToParcel(Parcel parcelSchool, int i) {
         parcelSchool.writeString(dbn);
         parcelSchool.writeString(school_name);
-
-        Log.d(TAG, "ModelSchools object written to parcel: " + dbn + ", " + school_name);
+//        Log.d(TAG, "ModelSchools object written to parcel: " + dbn + ", " + school_name);
     }
 
     // getters
@@ -63,8 +62,7 @@ public class ModelSchools implements Parcelable {
 
     public void setSatScores(List<ModelSATScores> satScores) {
         this.satScores = satScores;
-        Log.d(TAG, "ModelSchools satScores list set, size: " + satScores.size());
-
+//        Log.d(TAG, "ModelSchools satScores list set, size: " + satScores.size());
     }
 
 }

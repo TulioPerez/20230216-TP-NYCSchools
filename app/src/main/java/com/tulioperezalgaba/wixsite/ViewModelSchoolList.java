@@ -39,15 +39,14 @@ public class ViewModelSchoolList extends ViewModel {
 
     // load the school data
     void loadSchools() {
-        Log.d(TAG, "loadSchools: Loading school data...");
-
+//        Log.d(TAG, "loadSchools: Loading school data...");
         schoolRepository.getSchools(new Callback<List<ModelSchools>>() {
             @Override
             public void onResponse(Call<List<ModelSchools>> call, Response<List<ModelSchools>> response) {
 
                 if (response.isSuccessful()) {
                     schoolsLiveData.postValue(response.body());
-                    Log.d(TAG, "loadSchools: school data loaded successfully.");
+//                    Log.d(TAG, "loadSchools: school data loaded successfully.");
 
                 } else {
                     errorLiveData.postValue("Error fetching schools data: " + response.message());

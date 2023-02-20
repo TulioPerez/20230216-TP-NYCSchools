@@ -39,36 +39,34 @@ public class ViewModelSATScores extends ViewModel {
     }
 
     // load the school data
-    void loadSchoolDetails(String dbn) {
-        Log.d(TAG, "loadSchoolDetails: Loading school data...");
-
+    void loadSchoolData(String dbn) {
+//        Log.d(TAG, "loadSchoolData: Loading school data...");
         schoolRepository.getSchoolByDbn(dbn, new Callback<List<ModelSchools>>() {
             @Override
             public void onResponse(Call<List<ModelSchools>> call, Response<List<ModelSchools>> response) {
 
                 if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
                     ModelSchools school = response.body().get(0);
-                    loadSATScoresForSchool(dbn, school);
-                    Log.d(TAG, "loadSchoolDetails: school data loaded successfully.");
+                    loadSATScores(dbn, school);
+//                    Log.d(TAG, "loadSchoolData: school data loaded successfully.");
 
                 } else {
                     errorLiveData.postValue("Error fetching school data: " + response.message());
-                    Log.e(TAG, "loadSchoolDetails: Error fetching school data: " + response.message());
+                    Log.e(TAG, "loadSchoolData: Error fetching school data: " + response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<List<ModelSchools>> call, Throwable t) {
                 errorLiveData.postValue("Error fetching school data: " + t.getMessage());
-                Log.e(TAG, "loadSchoolDetails: Failed to school data: " + t.getMessage());
+                Log.e(TAG, "loadSchoolData: Failed to school data: " + t.getMessage());
             }
         });
     }
 
     // load the scores data
-    private void loadSATScoresForSchool(String dbn, ModelSchools school) {
-        Log.d(TAG, "loadSATScoresForSchool: Loading SAT scores data...");
-
+    private void loadSATScores(String dbn, ModelSchools school) {
+//        Log.d(TAG, "loadSATScores: Loading SAT scores data...");
         satScoreRepository.getScoresBySchool(dbn, new Callback<List<ModelSATScores>>() {
             @Override
             public void onResponse(Call<List<ModelSATScores>> call, Response<List<ModelSATScores>> response) {
@@ -77,11 +75,11 @@ public class ViewModelSATScores extends ViewModel {
                     List<ModelSATScores> scores = response.body();
                     school.setSatScores(scores);
                     schoolLiveData.postValue(school);
-                    Log.d(TAG, "loadSATScoresForSchool: SAT scores data loaded successfully.");
+//                    Log.d(TAG, "loadSATScores: SAT scores data loaded successfully.");
 
                 } else {
                     errorLiveData.postValue("Error fetching SAT scores data: " + response.message());
-                    Log.e(TAG, "loadSATScoresForSchool: Error fetching SAT scores data: " + response.message());
+                    Log.e(TAG, "loadSATScores: Error fetching SAT scores data: " + response.message());
 
                 }
             }
@@ -89,7 +87,7 @@ public class ViewModelSATScores extends ViewModel {
             @Override
             public void onFailure(Call<List<ModelSATScores>> call, Throwable t) {
                 errorLiveData.postValue("Error fetching SAT scores data: " + t.getMessage());
-                Log.e(TAG, "loadSATScoresForSchool: Failed to fetch SAT scores data: " + t.getMessage());
+                Log.e(TAG, "loadSATScores: Failed to fetch SAT scores data: " + t.getMessage());
 
             }
         });

@@ -22,6 +22,9 @@ public class RepoSATScores {
     private static final String BASE_URL = "https://data.cityofnewyork.us/";
     private static final String JSON_SOURCE = "resource/f9bf-2cp4.json";
 
+    private Call<List<ModelSATScores>> call;
+
+
     // Retrofit service for retrieving SAT score data
     private final SATScoreService satScoreService;
 
@@ -36,6 +39,8 @@ public class RepoSATScores {
 
     // fetches list of SAT scores
     public void getScoresBySchool(String dbn, Callback<List<ModelSATScores>> callback) {
+        call = satScoreService.getScoresBySchool(dbn);
+
         Call<List<ModelSATScores>> call = satScoreService.getScoresBySchool(dbn);
         call.enqueue(new Callback<List<ModelSATScores>>() {
             @Override
